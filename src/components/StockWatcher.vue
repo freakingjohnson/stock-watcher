@@ -17,7 +17,7 @@
     <br>
     <div class="list">
       <ul v-bind:class="{single: stocks.length <= 1, group: stocks.length > 1}">
-        <h2 class="nothing" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
+        <h2 class="snack" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
         <li v-for="(stock, index) in stocks" :key="index" class="list-group-item">
           <div class="left">
             <h3
@@ -246,7 +246,6 @@ input[type="range"] {
   width: 100px;
   background: transparent;
 }
-
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 0;
@@ -262,7 +261,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   cursor: default;
   background: gray;
 }
-.nothing {
+.snack {
   text-align: center;
   width: auto;
   color: darkgray;
