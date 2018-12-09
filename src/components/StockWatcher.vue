@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       stocks: [],
+      symbols: [],
       resData: {},
       input: ""
     };
@@ -81,9 +82,16 @@ export default {
         .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
         .then(response => (this.resData = response.data))
         .catch(err => this.warning());
-      this.resData.symbol && this.stocks.push(this.resData);
-      this.input = "";
-      this.resData = {};
+      if (!this.symbols.includes(this.input.toUpperCase())) {
+        this.symbols.push(this.resData.symbol);
+        this.resData.symbol && this.stocks.push(this.resData);
+        this.input = "";
+        this.resData = {};
+      }else{
+        alert("You're already watching that stock")
+        this.input = "";
+        this.resData = {}
+      }
     },
     warning() {
       var x = document.getElementById("snackbar");
