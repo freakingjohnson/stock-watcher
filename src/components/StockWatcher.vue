@@ -107,11 +107,6 @@ ul {
   margin: auto;
   width: 70%;
 }
-li {
-  margin: 0;
-  background-color: #fff;
-  max-width: 400px;
-}
 button {
   height: 42px;
   width: 100px;
@@ -157,6 +152,9 @@ button:active {
   border-radius: 2px;
   display: flex;
   padding: 15px;
+  margin: 0;
+  background-color: #fff;
+  max-width: 400px;
 }
 .company-name {
   font-size: 1em;
@@ -292,7 +290,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     grid-template-columns: auto;
     width: 90%;
   }
-  li {
+  .list-group-item {
     height: 30px;
   }
   .list {
