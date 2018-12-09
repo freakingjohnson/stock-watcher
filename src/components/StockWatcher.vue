@@ -1,5 +1,6 @@
 <template>
   <div class="root">
+    <div id="snackbar">Invalid stock symbol, please try again.</div>
     <div class="form-container">
       <h2>Stock Watcher</h2>
       <form>
@@ -15,7 +16,8 @@
     </div>
     <br>
     <div class="list">
-      <ul v-bind:class="{single: stocks.length == 1, group: stocks.length > 1}">
+      <ul v-bind:class="{single: stocks.length <= 1, group: stocks.length > 1}">
+        <h2 class="nothing" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
         <li v-for="(stock, index) in stocks" :key="index" class="list-group-item">
           <div class="left">
             <h3
@@ -57,6 +59,7 @@
         </li>
       </ul>
     </div>
+    <div id="snackbar">Invalid stock symbol, please try again.</div>
   </div>
 </template>
 
@@ -77,16 +80,22 @@ export default {
       await axios
         .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
         .then(response => (this.resData = response.data))
-        .catch(err => alert("Please enter a valid stock symbol"));
+        .catch(err => this.warning());
       this.resData.symbol && this.stocks.push(this.resData);
       this.input = "";
       this.resData = {};
+    },
+    warning() {
+      var x = document.getElementById("snackbar");
+      x.className = "show";
+      setTimeout(function() {
+        x.className = x.className.replace("show", "");
+      }, 3000);
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 ul {
   list-style-type: none;
@@ -101,6 +110,7 @@ ul {
 li {
   margin: 0;
   background-color: #fff;
+  max-width: 400px;
 }
 button {
   height: 42px;
@@ -143,7 +153,7 @@ button:active {
   margin: auto;
 }
 .list-group-item {
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: 2px;
   display: flex;
   padding: 15px;
@@ -252,7 +262,33 @@ input[type="range"]::-webkit-slider-runnable-track {
   cursor: default;
   background: gray;
 }
-@media screen and (max-width: 600px) {
+.nothing {
+  text-align: center;
+  width: auto;
+  color: darkgray;
+}
+.hide {
+  display: none;
+}
+@media screen and (max-width: 1025px) {
+  ul {
+    width: 90%;
+  }
+  .list {
+    width: 90%;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 900px) {
+  ul {
+    width: 100%;
+  }
+  .list {
+    width: 100%;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 500px) {
   ul {
     grid-template-columns: auto;
     width: 90%;
@@ -262,6 +298,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   }
   .list {
     width: 100%;
+    margin-left: -10px;
   }
   .graph {
     display: none;
@@ -296,6 +333,45 @@ input[type="range"]::-webkit-slider-runnable-track {
   }
   .form-control {
     font-size: 0.54em;
+  }
+}
+#snackbar {
+  visibility: hidden;
+  width: 80%;
+  margin: auto;
+  background-color: darkred;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+  bottom: 30px;
+}
+#snackbar.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+  from {
+    left: -3000px;
+    opacity: 1;
+  }
+  to {
+    left: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    left: 30px;
+    opacity: 1;
+  }
+  to {
+    left: -2000px;
+    opacity: 1;
   }
 }
 </style>
