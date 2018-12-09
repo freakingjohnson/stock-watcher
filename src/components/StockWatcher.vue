@@ -59,7 +59,7 @@
         </li>
       </ul>
     </div>
-    <div id="snackbar">Invalid stock symbol, please try again.</div>
+    <div id="snackbar">{{msg}}</div>
   </div>
 </template>
 
@@ -73,7 +73,8 @@ export default {
       stocks: [],
       symbols: [],
       resData: {},
-      input: ""
+      input: "",
+      msg: ""
     };
   },
   methods: {
@@ -81,19 +82,26 @@ export default {
       await axios
         .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
         .then(response => (this.resData = response.data))
-        .catch(err => this.warning());
+        .catch(err => {
+          this.warning("Invalid stock symbol, please try again.")
+          console.log(this.msg)
+          this.msg = ""
+          });
       if (!this.symbols.includes(this.input.toUpperCase())) {
         this.symbols.push(this.resData.symbol);
         this.resData.symbol && this.stocks.push(this.resData);
         this.input = "";
         this.resData = {};
       }else{
-        alert("You're already watching that stock")
+        this.warning("You're already watching that stock")
+        console.log(this.msg)
+        this.msg = ""
         this.input = "";
         this.resData = {}
       }
     },
-    warning() {
+    warning(str) {
+      this.msg = str
       var x = document.getElementById("snackbar");
       x.className = "show";
       setTimeout(function() {
