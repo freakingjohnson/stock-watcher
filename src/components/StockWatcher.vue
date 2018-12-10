@@ -17,7 +17,12 @@
     <div class="list">
       <ul v-bind:class="{single: stocks.length <= 1, mobile: w < 500}">
         <h2 class="stock-placeholder" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
-        <li v-for="(stock, index) in stocks" :key="index" class="list-group-item" v-on:click="deleteStock(index)">
+        <li
+          v-for="(stock, index) in stocks"
+          :key="index"
+          class="list-group-item"
+          v-on:click="deleteStock(index)"
+        >
           <div class="left">
             <h3
               class="company-name"
@@ -63,7 +68,7 @@
 
 <script>
 import axios from "axios";
-import '../css/styles.css';
+import "../css/styles.css";
 
 export default {
   name: "StockWatcher",
@@ -79,12 +84,18 @@ export default {
   },
   methods: {
     async add() {
-      await axios
-        .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
-        .then(response => (this.resData = response.data))
-        .catch(() => {
-          this.warning("Invalid stock symbol, please try again.");
-        });
+      if (this.input === "q" || this.input === "Q") {
+        this.warning("Invalid stock symbol, please try again.");
+      }
+      this.input !== "q" &&
+        this.input !== "Q" &&
+        (await axios
+          .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
+          .then(response => (this.resData = response.data))
+          .catch(err => {
+            this.warning("Invalid stock symbol, please try again.");
+            console.log(err);
+          }));
       if (!this.symbols.includes(this.input.toUpperCase())) {
         this.symbols.push(this.resData.symbol);
         this.resData.symbol && this.stocks.push(this.resData);
@@ -95,8 +106,8 @@ export default {
       this.resData = {};
     },
     deleteStock(i) {
-      this.stocks.splice(i,1);
-      this.symbols.splice(i,1);
+      this.stocks.splice(i, 1);
+      this.symbols.splice(i, 1);
     },
     warning(str) {
       this.msg = str;
