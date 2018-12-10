@@ -15,7 +15,7 @@
     </header>
     <br>
     <div class="list">
-      <ul v-bind:class="{single: stocks.length <= 1, mobile: w < 500}">
+      <ul v-bind:class="{single: stocks.length <= 1}">
         <h2 class="stock-placeholder" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
         <li
           v-for="(stock, index) in stocks"
@@ -113,7 +113,7 @@ export default {
     deleteStock(i) {
       this.stocks.splice(i, 1);
       this.symbols.splice(i, 1);
-      this.message("Stock removed successfully", "darkgray")
+      this.message("Stock removed successfully", "darkgray");
     },
     message(str, color) {
       this.msg = str;
