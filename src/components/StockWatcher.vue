@@ -167,6 +167,7 @@ button:active {
   margin: 0;
   background-color: #fff;
   max-width: 400px;
+  cursor: url(../assets/delete.png) 0 0, auto
 }
 .company-name {
   font-size: 1em;
