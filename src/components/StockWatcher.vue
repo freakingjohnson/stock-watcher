@@ -16,7 +16,7 @@
     <br>
     <div class="list">
       <ul v-bind:class="{single: stocks.length <= 1, group: stocks.length > 1}">
-        <h2 class="snack" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
+        <h2 class="stock-placeholder" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
         <li v-for="(stock, index) in stocks" :key="index" class="list-group-item" v-on:click="deleteStock(index)">
           <div class="left">
             <h3
@@ -186,6 +186,9 @@ button:active {
   top: 15px;
   right: 0;
 }
+.percent {
+  margin-left: 10px;
+}
 .triangle {
   position: relative;
   width: 0;
@@ -193,9 +196,6 @@ button:active {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   top: 25%;
-}
-.percent {
-  margin-left: 10px;
 }
 .up {
   position: absolute;
@@ -217,7 +217,6 @@ button:active {
 }
 .left {
   position: relative;
-  /* margin-right: 10%; */
   width: 230px;
 }
 .right {
@@ -252,6 +251,16 @@ button:active {
   grid-template-columns: auto;
   width: 35%;
 }
+.hide {
+  display: none;
+}
+.stock-placeholder {
+  text-align: center;
+  width: auto;
+  color: darkgray;
+}
+
+/* Graph styling */
 input[type="range"] {
   -webkit-appearance: none;
   width: 100px;
@@ -272,14 +281,8 @@ input[type="range"]::-webkit-slider-runnable-track {
   cursor: default;
   background: gray;
 }
-.snack {
-  text-align: center;
-  width: auto;
-  color: darkgray;
-}
-.hide {
-  display: none;
-}
+
+/* Media queries */
 @media screen and (max-width: 1025px) {
   ul {
     width: 90%;
@@ -345,6 +348,8 @@ input[type="range"]::-webkit-slider-runnable-track {
     font-size: 0.54em;
   }
 }
+
+/* Snackbar styling */
 #snackbar {
   visibility: hidden;
   width: 80%;
@@ -362,7 +367,6 @@ input[type="range"]::-webkit-slider-runnable-track {
   visibility: visible;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
-
 @keyframes fadein {
   from {
     left: -3000px;
