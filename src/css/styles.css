@@ -167,6 +167,10 @@ button:active {
     width: 35%;
 }
 
+.mobile {
+    width: 90%;
+}
+
 .hide {
     display: none;
 }
@@ -206,6 +210,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 @media screen and (max-width: 1025px) {
     ul {
+        grid-template-columns: auto auto;
         width: 90%;
     }
     .list {
@@ -216,6 +221,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 @media screen and (max-width: 900px) {
     ul {
+        grid-template-columns: auto auto;
         width: 100%;
     }
     .list {

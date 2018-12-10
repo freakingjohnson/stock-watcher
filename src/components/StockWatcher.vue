@@ -15,7 +15,7 @@
     </div>
     <br>
     <div class="list">
-      <ul v-bind:class="{single: stocks.length <= 1, group: stocks.length > 1}">
+      <ul v-bind:class="{single: stocks.length <= 1, mobile: w < 500}">
         <h2 class="stock-placeholder" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
         <li v-for="(stock, index) in stocks" :key="index" class="list-group-item" v-on:click="deleteStock(index)">
           <div class="left">
@@ -73,7 +73,8 @@ export default {
       symbols: [],
       resData: {},
       input: "",
-      msg: ""
+      msg: "",
+      w: window.innerWidth
     };
   },
   methods: {
