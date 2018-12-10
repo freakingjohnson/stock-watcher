@@ -335,6 +335,5 @@ input[type="range"]::-webkit-slider-runnable-track {
     to {
         left: 2000px;
         opacity: 1;
-        width: 1;
     }
 }
