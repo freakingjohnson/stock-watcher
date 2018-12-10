@@ -6,7 +6,6 @@ ul {
     grid-gap: 10px;
     align-items: center;
     margin: auto;
-    width: 70%;
 }
 
 button {
@@ -37,7 +36,7 @@ button:active {
 }
 
 .list {
-    width: 60%;
+    width: fit-content;
     margin: auto;
 }
 
@@ -181,7 +180,6 @@ button:active {
 
 .single {
     grid-template-columns: auto;
-    width: 35%;
 }
 
 .mobile {
