@@ -3,22 +3,21 @@
     <div id="snackbar">{{msg}}</div>
     <div class="form-container">
       <h2>Stock Watcher</h2>
-      <form>
-        <input
-          type="text"
-          v-model="input"
-          class="form-control"
-          id="stockitem"
-          placeholder="Enter stock symbol..."
-        >
-        <button type="button" v-on:click="add()">ADD</button>
-      </form>
+      <input
+        type="text"
+        v-model="input"
+        class="form-control"
+        id="stockitem"
+        placeholder="Enter stock symbol..."
+        v-on:keyup.enter="add()"
+      >
+      <button type="button" v-on:click="add()">ADD</button>
     </div>
     <br>
     <div class="list">
       <ul v-bind:class="{single: stocks.length <= 1, group: stocks.length > 1}">
         <h2 class="snack" v-bind:class="{hide: stocks.length > 0}">No stocks yet!</h2>
-        <li v-for="(stock, index) in stocks" :key="index" class="list-group-item">
+        <li v-for="(stock, index) in stocks" :key="index" class="list-group-item" v-on:click="deleteStock(index)">
           <div class="left">
             <h3
               class="company-name"
@@ -82,23 +81,23 @@ export default {
         .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
         .then(response => (this.resData = response.data))
         .catch(err => {
-          this.warning("Invalid stock symbol, please try again.")
-          console.log(this.msg)
-          });
+          this.warning("Invalid stock symbol, please try again.");
+        });
       if (!this.symbols.includes(this.input.toUpperCase())) {
         this.symbols.push(this.resData.symbol);
         this.resData.symbol && this.stocks.push(this.resData);
-        this.input = "";
-        this.resData = {};
-      }else{
-        this.warning("You're already watching that stock")
-        console.log(this.msg)
-        this.input = "";
-        this.resData = {}
+      } else {
+        this.warning("You're already watching that stock");
       }
+      this.input = "";
+      this.resData = {};
+    },
+    deleteStock(i) {
+      this.stocks.splice(i,1);
+      this.symbols.splice(i,1);
     },
     warning(str) {
-      this.msg = str
+      this.msg = str;
       var x = document.getElementById("snackbar");
       x.className = "show";
       setTimeout(function() {
