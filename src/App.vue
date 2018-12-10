@@ -25,5 +25,6 @@ export default {
 }
 body {
   background-color: lightgray;
+  overflow-x: hidden;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <div id="snackbar">{{msg}}</div>
-    <div class="form-container">
+    <header class="form-container">
       <h2>Stock Watcher</h2>
       <input
         type="text"
@@ -12,7 +12,7 @@
         v-on:keyup.enter="add()"
       >
       <button type="button" v-on:click="add()">ADD</button>
-    </div>
+    </header>
     <br>
     <div class="list">
       <ul v-bind:class="{single: stocks.length <= 1, mobile: w < 500}">
@@ -38,14 +38,14 @@
                 &nbsp;
                 <span
                   class="percent"
-                  v-bind:class="{green: stock.change > 0, red: stock.change < 0 }"
+                  v-bind:class="{greentext: stock.change > 0, redtext: stock.change < 0 }"
                 >{{stock.change > 0 ? stock.change : Math.abs(stock.change)}}&nbsp;({{stock.changePercent.toFixed(2)}}%)</span>
               </div>
               <br>
               <h3 class="current-price">${{stock.latestPrice.toFixed(2)}}</h3>
             </div>
           </div>
-          <div class="right">
+          <aside class="right">
             <div class="graph">
               <input
                 class="slider"
@@ -56,10 +56,10 @@
                 :value="stock.latestPrice"
                 disabled
               >
-              <div class="hl high">${{stock.high.toFixed(2)}}</div>&nbsp;
-              <div class="hl low">${{stock.low.toFixed(2)}}</div>
+              <p class="hl high">${{stock.high.toFixed(2)}}</p>&nbsp;
+              <p class="hl low">${{stock.low.toFixed(2)}}</p>
             </div>
-          </div>
+          </aside>
         </li>
       </ul>
     </div>
@@ -84,35 +84,41 @@ export default {
   },
   methods: {
     async add() {
-      if (this.input === "q" || this.input === "Q") {
-        this.warning("Invalid stock symbol, please try again.");
+      if (this.input === "q" || this.input === "Q" || !this.input) {
+        this.message("Invalid stock symbol, please try again.", "red");
       }
-      this.input !== "q" &&
+      this.input &&
+        this.input !== "q" &&
         this.input !== "Q" &&
         (await axios
           .get(`https://api.iextrading.com/1.0/stock/${this.input}/quote`)
-          .then(response => (this.resData = response.data))
+          .then(response => {
+            this.resData = response.data;
+            if (!this.symbols.includes(this.input.toUpperCase())) {
+              this.symbols.push(this.resData.symbol);
+              this.resData.symbol && this.stocks.push(this.resData);
+              this.message("Stock added successfully!", "green");
+            } else {
+              this.message("You're already watching that stock", "orange");
+            }
+          })
           .catch(err => {
-            this.warning("Invalid stock symbol, please try again.");
+            this.message("Invalid stock symbol, please try again.", "red");
             console.log(err);
           }));
-      if (!this.symbols.includes(this.input.toUpperCase())) {
-        this.symbols.push(this.resData.symbol);
-        this.resData.symbol && this.stocks.push(this.resData);
-      } else {
-        this.warning("You're already watching that stock");
-      }
+
       this.input = "";
       this.resData = {};
     },
     deleteStock(i) {
       this.stocks.splice(i, 1);
       this.symbols.splice(i, 1);
+      this.message("Stock removed successfully", "darkgray")
     },
-    warning(str) {
+    message(str, color) {
       this.msg = str;
       var x = document.getElementById("snackbar");
-      x.className = "show";
+      x.className = `show ${color}`;
       setTimeout(function() {
         x.className = x.className.replace("show", "");
       }, 3000);

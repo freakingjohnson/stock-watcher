@@ -110,12 +110,28 @@ button:active {
     border-top: 10px solid red;
 }
 
-.green {
+.greentext {
     color: green;
 }
 
-.red {
+.redtext {
     color: red;
+}
+
+.red {
+  background-color: darkred;
+}
+
+.green {
+  background-color: green;
+}
+
+.orange{
+  background-color: orange;
+}
+
+.darkgray{
+  background-color: darkgray;
 }
 
 .current-price {
@@ -137,11 +153,12 @@ button:active {
 
 .hl {
     font-size: 10px;
+    margin: 0;
 }
 
 .high {
     position: relative;
-    bottom: 10px;
+    bottom: 12px;
 }
 
 .low {
@@ -285,7 +302,6 @@ input[type="range"]::-webkit-slider-runnable-track {
     visibility: hidden;
     width: 80%;
     margin: auto;
-    background-color: darkred;
     color: #fff;
     text-align: center;
     border-radius: 2px;
@@ -317,7 +333,8 @@ input[type="range"]::-webkit-slider-runnable-track {
         opacity: 1;
     }
     to {
-        left: -2000px;
+        left: 2000px;
         opacity: 1;
+        width: 1;
     }
 }
