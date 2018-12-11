@@ -51,8 +51,8 @@
                 class="slider"
                 type="range"
                 step=".01"
-                :min="Math.min(stock.latestPrice, stock.low)"
-                :max="Math.max(stock.latestPrice, stock.high)"
+                :min="stock.low"
+                :max="stock.high"
                 :value="stock.latestPrice"
                 disabled
               >
