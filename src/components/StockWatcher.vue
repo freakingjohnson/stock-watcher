@@ -45,21 +45,19 @@
               <h3 class="current-price">${{stock.latestPrice.toFixed(2)}}</h3>
             </div>
           </div>
-          <aside class="right">
-            <div class="graph">
-              <input
-                class="slider"
-                type="range"
-                step=".01"
-                :min="stock.low"
-                :max="stock.high"
-                :value="stock.latestPrice"
-                disabled
-              >
-              <p class="hl high">${{stock.high.toFixed(2)}}</p>&nbsp;
-              <p class="hl low">${{stock.low.toFixed(2)}}</p>
-            </div>
-          </aside>
+          <div class="right graph">
+            <input
+              class="slider"
+              type="range"
+              step=".01"
+              :min="stock.low"
+              :max="stock.high"
+              :value="stock.latestPrice"
+              disabled
+            >
+            <p class="hl high">${{stock.high.toFixed(2)}}</p>&nbsp;
+            <p class="hl low">${{stock.low.toFixed(2)}}</p>
+          </div>
         </li>
       </ul>
     </div>
