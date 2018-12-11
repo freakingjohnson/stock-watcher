@@ -245,7 +245,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     }
     .price-container {
         display: inline-block;
-        left: 220px;
+        left: 168px;
         bottom: 62px;
         position: relative;
     }
